@@ -1,82 +1,66 @@
-// Model === Data , View === UI, Controller === Brain - 
 
 
 //Model
 const model = {
-    currentCar: null,
-    cars: [
+    currentcat: null,
+    cats: [
         {
             clickCount: 0,
-            name: 'Coupe Maserati',
-            imgSrc: 'img/black-convertible-coupe.jpg',
+            name: 'Michifu',
+            imgSrc: 'img/gato1.jpg',
         },
         {
             clickCount: 0,
-            name: 'Camaro SS 1LE',
-            imgSrc: 'img/chevrolet-camaro.jpg',
+            name: 'Minino',
+            imgSrc: 'img/gato2.jpg',
         },
         {
             clickCount: 0,
-            name: 'Dodger Charger 1970',
-            imgSrc: 'img/dodge-charger.jpg',
+            name: 'Garfield',
+            imgSrc: 'img/gato3.jpg',
         },
         {
             clickCount: 0,
-            name: 'Ford Mustang 1966',
-            imgSrc: 'img/ford-mustang.jpg',
+            name: 'Minchi',
+            imgSrc: 'img/gato.jpg',
         },
-        {
-            clickCount: 0,
-            name: '190 SL Roadster 1962',
-            imgSrc: 'img/mercedes-benz.jpg',
-        },
+      
     ],
 };
 
 // Controller
 const controller = {
     init() {
-        // set our current car to the first one in the list
-        model.currentCar = model.cars[0];
-
-        // tell our views to initialize
-        carListView.init();
-        carView.init();
+        model.currentcat = model.cats[0];
+        catListView.init();
+        catView.init();
     },
-
-    getCurrentCar() {
-        return model.currentCar;
+    getCurrentcat() {
+        return model.currentcat;
     },
-
-    getCars() {
-        return model.cars;
+    getcats() {
+        return model.cats;
     },
-
-    // set the currently-selected car to the object passed in
-    setCurrentCar(car) {
-        model.currentCar = car;
+    setCurrentcat(cat) {
+        model.currentcat = cat;
     },
-
-    // increments the counter for the currently-selected car
     incrementCounter() {
-        model.currentCar.clickCount++;
-        carView.render();
+        model.currentcat.clickCount++;
+        catView.render();
     },
 };
 
-// Views
-const carView = {
+// Vista
+const catView = {
     init() {
-        // store pointer to our DOM elements for easy access later
-        this.carElem = document.getElementById('car');
-        this.carNameElem = document.getElementById('car-name');
-        this.carImageElem = document.getElementById('car-img');
-        this.countElem = document.getElementById('car-count');
+    
+        this.catElem = document.getElementById('cat');
+        this.catNameElem = document.getElementById('cat-name');
+        this.catImageElem = document.getElementById('cat-img');
+        this.countElem = document.getElementById('cat-count');
 
-        // on click increment the current car's counter
-        this.carImageElem.addEventListener('click', this.clickHandler);
+        this.catImageElem.addEventListener('click', this.clickHandler);
 
-        // render this view (update the DOM elements with the right values)
         this.render();
     },
 
@@ -85,58 +69,55 @@ const carView = {
     },
 
     render() {
-        // update the DOM elements with values from the current car
-        const currentCar = controller.getCurrentCar();
-        this.countElem.textContent = currentCar.clickCount;
-        this.carNameElem.textContent = currentCar.name;
-        this.carImageElem.src = currentCar.imgSrc;
-        this.carImageElem.style.cursor = 'pointer';
+        const currentcat = controller.getCurrentcat();
+        this.countElem.textContent = currentcat.clickCount;
+        this.catNameElem.textContent = currentcat.name;
+        this.catImageElem.src = currentcat.imgSrc;
+        this.catImageElem.style.cursor = 'pointer';
     },
 };
 
-const carListView = {
+const catListView = {
     init() {
-        // store the DOM element for easy access later
-        this.carListElem = document.getElementById('car-list');
+      
+        this.catListElem = document.getElementById('cat-list');
 
-        // render this view (update the DOM elements with the right values)
         this.render();
     },
 
     render() {
-        let car;
+        let cat;
         let elem;
         let i;
-        // get the cars we'll be rendering from the controller
-        const cars = controller.getCars();
+       
+        const cats = controller.getcats();
 
-        // empty the car list
-        this.carListElem.innerHTML = '';
+       
+        this.catListElem.innerHTML = '';
 
-        // loop over the cars
-        for(let i = 0; i < cars.length; i++) {
-            // this is the car we've currently looping over
-            car = cars[i];
+    
+        for(let i = 0; i < cats.length; i++) {
+         
+            cat = cats[i];
 
-            // make a new car list item and set its text
+         
             elem = document.createElement('li');
             elem.className = 'list-group-item d-flex justify-content-between lh-condensed';
             elem.style.cursor = 'pointer';
-            elem.textContent = car.name;
+            elem.textContent = cat.name;
             elem.addEventListener(
                 'click',
-                (function(carCopy) {
+                (function(catCopy) {
                   return function() {
-                    controller.setCurrentCar(carCopy);
-                    carView.render();
+                    controller.setCurrentcat(catCopy);
+                    catView.render();
                   };
-                })(car)
+                })(cat)
               );
-                // finally, add the element to the list
-                this.carListElem.appendChild(elem);
+               
+                this.catListElem.appendChild(elem);
         }
     },
 };
 
-// Let's goo!
 controller.init();
